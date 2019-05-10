@@ -15,7 +15,6 @@ from homeassistant.const import (
     SERVICE_TURN_OFF,
     SERVICE_TOGGLE,
 )
-from homeassistant.components import group
 from homeassistant.helpers.config_validation import (  # noqa
     ENTITY_SERVICE_SCHEMA,
     PLATFORM_SCHEMA,
@@ -39,10 +38,7 @@ ATTR_TIMEOUT = "timeout"
 DOMAIN = "remote"
 SCAN_INTERVAL = timedelta(seconds=30)
 
-ENTITY_ID_ALL_REMOTES = group.ENTITY_ID_FORMAT.format("all_remotes")
 ENTITY_ID_FORMAT = DOMAIN + ".{}"
-
-GROUP_NAME_ALL_REMOTES = "all remotes"
 
 MIN_TIME_BETWEEN_SCANS = timedelta(seconds=10)
 
@@ -81,17 +77,14 @@ REMOTE_SERVICE_LEARN_COMMAND_SCHEMA = ENTITY_SERVICE_SCHEMA.extend(
 
 
 @bind_hass
-def is_on(hass, entity_id=None):
+def is_on(hass, entity_id):
     """Return if the remote is on based on the statemachine."""
-    entity_id = entity_id or ENTITY_ID_ALL_REMOTES
     return hass.states.is_state(entity_id, STATE_ON)
 
 
 async def async_setup(hass, config):
     """Track states and offer events for remotes."""
-    component = EntityComponent(
-        _LOGGER, DOMAIN, hass, SCAN_INTERVAL, GROUP_NAME_ALL_REMOTES
-    )
+    component = EntityComponent(_LOGGER, DOMAIN, hass, SCAN_INTERVAL)
     await component.async_setup(config)
 
     component.async_register_entity_service(

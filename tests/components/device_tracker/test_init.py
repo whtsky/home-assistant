@@ -12,14 +12,13 @@ from homeassistant.components import zone
 import homeassistant.components.device_tracker as device_tracker
 from homeassistant.components.device_tracker import const, legacy
 from homeassistant.const import (
-    ATTR_ENTITY_ID,
-    ATTR_ENTITY_PICTURE,
-    ATTR_FRIENDLY_NAME,
-    ATTR_GPS_ACCURACY,
-    ATTR_HIDDEN,
-    ATTR_ICON,
     ATTR_LATITUDE,
     ATTR_LONGITUDE,
+    ATTR_GPS_ACCURACY,
+    ATTR_ENTITY_PICTURE,
+    ATTR_FRIENDLY_NAME,
+    ATTR_HIDDEN,
+    ATTR_ICON,
     CONF_PLATFORM,
     STATE_HOME,
     STATE_NOT_HOME,
@@ -317,28 +316,6 @@ async def test_device_hidden(hass, mock_device_tracker_conf):
         assert await async_setup_component(hass, device_tracker.DOMAIN, TEST_PLATFORM)
 
     assert hass.states.get(entity_id).attributes.get(ATTR_HIDDEN)
-
-
-async def test_group_all_devices(hass, mock_device_tracker_conf):
-    """Test grouping of devices."""
-    devices = mock_device_tracker_conf
-    dev_id = "test_entity"
-    entity_id = const.ENTITY_ID_FORMAT.format(dev_id)
-    device = legacy.Device(
-        hass, timedelta(seconds=180), True, dev_id, None, hide_if_away=True
-    )
-    devices.append(device)
-    scanner = getattr(hass.components, "test.device_tracker").SCANNER
-    scanner.reset()
-
-    with assert_setup_component(1, device_tracker.DOMAIN):
-        assert await async_setup_component(hass, device_tracker.DOMAIN, TEST_PLATFORM)
-        await hass.async_block_till_done()
-
-    state = hass.states.get(device_tracker.ENTITY_ID_ALL_DEVICES)
-    assert state is not None
-    assert STATE_NOT_HOME == state.state
-    assert (entity_id,) == state.attributes.get(ATTR_ENTITY_ID)
 
 
 @patch("homeassistant.components.device_tracker.legacy." "DeviceTracker.async_see")

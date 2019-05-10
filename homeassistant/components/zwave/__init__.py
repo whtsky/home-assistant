@@ -432,7 +432,6 @@ async def async_setup_entry(hass, config_entry):
         platform=None,
         scan_interval=DEFAULT_SCAN_INTERVAL,
         entity_namespace=None,
-        async_entities_added_callback=lambda: None,
     )
     platform.config_entry = config_entry
 
