@@ -90,7 +90,7 @@ jobs:
           name: requirements_diff
 
       - name: Build wheels
-        uses: home-assistant/wheels@2022.01.2
+        uses: home-assistant/wheels@2022.06.4
         with:
           tag: ${{ matrix.tag }}
           arch: ${{ matrix.arch }}
@@ -140,7 +140,7 @@ jobs:
           done
 
       - name: Build wheels
-        uses: home-assistant/wheels@2022.06.3
+        uses: home-assistant/wheels@2022.06.4
         with:
           abi: cp310
           tag: musllinux_1_2
@@ -201,7 +201,7 @@ jobs:
           done
 
       - name: Build wheels
-        uses: home-assistant/wheels@2022.01.2
+        uses: home-assistant/wheels@2022.06.4
         with:
           tag: ${{ matrix.tag }}
           arch: ${{ matrix.arch }}
@@ -273,7 +273,7 @@ jobs:
           done
 
       - name: Build wheels
-        uses: home-assistant/wheels@2022.06.3
+        uses: home-assistant/wheels@2022.06.4
         with:
           abi: cp310
           tag: musllinux_1_2
